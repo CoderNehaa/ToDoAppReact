@@ -30,28 +30,34 @@ class ToDoList extends React.Component {
         const updatedTasks = tasks.filter((task) => task.id !== id);
         this.setState({ tasks: updatedTasks });
     }
+    
+    // Update task
+    const updateTask = (taskId, newTitle) => {
+        const updatedTasks = tasks.map((task) =>
+          task.id === taskId ? { ...task, title: newTitle } : task
+        );
+        this.setState({ tasks: updatedTasks });
+    };
 
     // handle event when enter key is pressed
     const handleKeyDown = (e) => {
-
       if(e.key === 'Enter'){
         // If nothing is given in task
         if(e.target.value === ''){
           return alert('task can not be empty')
         }
 
-        if(itemToUpdate === 'null'){
+        if(itemToUpdate === null){
             // Add task
             const task={
-                title : e.target.value,
+                title : work,
                 id: Date.now(),
                 completed:false
-              }
+            }
             this.setState({tasks: [task,  ...tasks]})
         } else {
             // Update task
-            const updatedTasks = tasks.map((task) => task.id === itemToUpdate.id ? { ...task, title: work } : task )
-            this.setState({ tasks: updatedTasks });
+            updateTask(itemToUpdate.id, work);
             this.setState({itemToUpdate:null})
         }
         this.setState({work:''})
